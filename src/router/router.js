@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Orders from '../views/Orders.vue'
-import OrdersInfo from '../views/OrdersInfo.vue'
+import OrderInfo from '../views/OrderInfo.vue'
 
 Vue.use(VueRouter)
 
@@ -14,7 +14,7 @@ Vue.use(VueRouter)
   {
     path: ':id',
     name: 'OrdersInfo',
-    component: OrdersInfo,
+    component: OrderInfo,
     props: true
   }
 ]
