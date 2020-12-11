@@ -10,6 +10,42 @@
   scroll-behavior: smooth;
 }
 
+@font-face {
+  font-family: 'San Francisco Pro';
+  src:
+      url('./assets/font/SFProDisplay-Bold.woff') format('woff'),
+      url('./assets/font/SFProDisplay-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'San Francisco Pro';
+  src:
+      url('./assets/font/SFProDisplay-Light.woff') format('woff'),
+      url('./assets/font/SFProDisplay-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'San Francisco Pro';
+  src: 
+      url('./assets/font/SFProDisplay-Regular.woff') format('woff'),
+      url('./assets/font/SFProDisplay-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'San Francisco Pro';
+  src: 
+      url('./assets/font/SFProDisplay-Medium.woff') format('woff'),
+      url('./assets/font/SFProDisplay-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
 body,
 html {
   margin: 0;
@@ -46,22 +82,24 @@ a {
   margin: 0 auto;
 }
 
-.nav {
-  height: 50px;
-  display: flex;
-  align-items: center;
-  padding-left: 50px;
-
-  a {
-    color: black;
-    font-size: 24px;
-    font-weight: 600;
-    text-decoration: none;
-  }
-}
-
 .container {
   padding: 15px;
+
+  &__header {
+    font-family: 'San Francisco Pro';
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 26px;
+    letter-spacing: 0.3px;
+    color: #252525;
+
+    &--gray {
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 16px;
+      color: #929292;
+    }
+  }
 
   &-card {
     margin-top: 13px;
@@ -77,6 +115,28 @@ a {
       display: flex;
       justify-content: space-between;
       width: 100%;
+
+      &__header {
+        font-family: 'San Francisco Pro';
+        font-size: 35px;
+        color: black;
+        font-weight: 700;
+      }
+
+      &__text {
+        font-size: 9.75059px;
+        line-height: 16px;
+        font-family: 'San Francisco Pro';
+
+        &--small {
+          font-weight: 400;
+          color: #B1B1B1;
+        }
+
+        &--bold {
+          font-weight: 700;
+        }
+      }
     }
   }
 
@@ -117,6 +177,18 @@ a {
     width: 100%;
     justify-content: space-between;
     padding: 15px 0;
+    font-weight: 500;
+    font-family: 'San Francisco Pro';
+    font-size: 11px;
+
+    &__text {
+      
+      &--gray {
+        color: #9E9E9E;
+      }
+    }
+
+      
   }
 
   &-description {
@@ -126,7 +198,7 @@ a {
       width: 58px;
       height: 100px;
       display: flex;
-      background-color: #1e6fb9;
+      background-color: #1E6FB9;
       color: white;
       border-radius: 4px;
       align-items: center;
@@ -147,10 +219,12 @@ a {
           margin-bottom: 10px;
           line-height: 20px;
           color: #242424;
+          font-weight: 700;
+          font-family: 'San Francisco Pro';
         }
 
         &--blue {
-          color: blue;
+          color: #1E6FB9;
         }
 
         &--gray {
@@ -178,6 +252,9 @@ a {
         display: flex;
         justify-content: center;
         align-items: center;
+        font-weight: normal;
+        font-size: 14px;
+        font-family: 'San Francisco Pro';
       }
     }
   }
@@ -187,16 +264,35 @@ a {
     border-radius: 10px;
     min-width: 379px;
     height: 110px;
-    padding: 17px;
-
+    padding: 17px 0;
+    
     @media (max-width: 380px) {
       min-width: 300px;
     }
+
+    &__hr {
+      background-color: #D6D6D6;
+      height: 1px;
+    }
+
     &-add {
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
+      padding: 0 17px;
+
+      &__button {
+        outline: none;
+        border: none;
+        background-color: transparent;
+        font-weight: normal;
+        font-size: 17px;
+        line-height: 22px;
+        letter-spacing: -0.41px;
+        color: #3F3F3F;
+        font-family: 'San Francisco Pro';
+      }
     }
   }
 }
@@ -208,93 +304,11 @@ a {
 .arrow {
   margin-left: 36px;
 }
+
+.errors {
+  margin-top: 50px;
+  font-size: 20px;
+  color: red;
+  font-weight: 500;
+}
 </style>
-
-<script>
-  // import store from 'vuex'
-
-  export default {
-    data: function () {
-      return {
-        ordersArr: [
-          {
-            id: 1,
-            packageName: "ULTRA рацион",
-            packageCalories: "9999 кКал",
-            deliveries: [
-              {
-                id: 1,
-                date: "2020-12-20",
-                interval: "8:00 - 10:00",
-                address: "Дом",
-              },
-              {
-                id: 2,
-                date: "2020-12-15",
-                interval: "8:00 - 10:00",
-                address: "Дом",
-              },
-              {
-                id: 3,
-                date: "2020-12-10",
-                interval: "8:00 - 10:00",
-                address: "Дом",
-              },
-            ],
-          },
-          {
-            id: 2,
-            packageName: "NORMAL рацион",
-            packageCalories: "1300 кКал",
-            deliveries: [
-              {
-                id: 4,
-                date: "2020-12-20",
-                interval: "8:00 - 10:00",
-                address: "Дом",
-              },
-              {
-                id: 5,
-                date: "2020-12-02",
-                interval: "8:00 - 10:00",
-                address: "Дом",
-              },
-              {
-                id: 6,
-                date: "2020-12-11",
-                interval: "8:00 - 10:00",
-                address: "Дом",
-              },
-              {
-                id: 7,
-                date: "2020-12-15",
-                interval: "6:00 - 10:00",
-                address: "Дом",
-              },
-              {
-                id: 8,
-                date: "2020-12-9",
-                interval: "7:00 - 10:00",
-                address: "Дом",
-              },
-              {
-                id: 9,
-                date: "2020-12-16",
-                interval: "8:00 - 10:00",
-                address: "Дом",
-              },
-            ],
-          },
-        ],
-      };
-    },
-    methods: {
-      getOrders() {
-        this.$store.commit("getOrders", this.ordersArr);
-      }  
-    },
-    created() {
-      this.getOrders();
-    }
-  }
-</script>

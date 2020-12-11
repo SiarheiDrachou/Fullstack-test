@@ -1,37 +1,77 @@
 <template>
-    <div class="container-card" :class="{'container-card--white': !isDescription}">
-        <router-link :to="{name: 'OrdersInfo', params: {id: id, item: orders[id], orders: orders}}" title="Переход к заказам">
-            <Eat :item="item" />
+    <div>
+        <div class="container-card-eat">
+            <h1 class="container-card-eat__header">
+                6 дней
+            </h1>
 
-            <Bar />
+            <p class="container-card-eat__text">
+                <span class="container-card-eat__text--small">
+                    {{item.packageName}}
+                </span>
 
-            <Duration />
+                <br />
 
-            <Description 
-                v-if="isDescription"
-                :item="item"
-            />
-        </router-link>
+                <span class="container-card-eat__text--bold">
+                    <b>{{item.packageCalories}}</b>
+                </span>
+            </p>
+        </div>
+
+        <div class="container-bar">
+            <div class="container-bar--gray">
+                <div class="container-bar--blue" :style="{width: width + '%'}"></div>
+            </div>
+        </div>
+
+        <div class="container-duration">
+            <span class="container-duration__text--gray">
+                {{dateStart}}
+            </span>
+            
+            <span class="container-duration__text">
+                Осталось 25 дней
+            </span>
+            
+            <span class="container-duration__text--gray">
+                {{dateFinish}}
+            </span>
+        </div>
     </div>
 </template>
 
 <script>
-    import Eat from '../components/Eat.vue';
-    import Bar from '../components/Bar.vue';
-    import Duration from '../components/Duration.vue';
-    import Description from '../components/Description.vue';
+    import moment from 'moment';
+    import { mapState } from 'vuex';
 
     export default {
-        props: ["item", "id", "orders", "isDescription"],
-        components: {
-            Eat,
-            Bar,
-            Duration,
-            Description
+        props: ["item", "id"],
+        computed: {
+            ...mapState({
+                orders: state => state.orders,
+                ordersView: state => state.ordersView
+            }),
+            dateStart: function () {
+                moment.locale('ru')
+                let currentDay = moment().add(-10, 'days').format('DD MMM');
+                return currentDay;
+            },
+            dateFinish: function () {
+                moment.locale('ru')
+                let finishDay = moment().add(10, 'days').format('DD MMMM');
+                return finishDay;
+            },
+            width: function () {
+                if(this.orders[this.id].deliveries.length == this.ordersView[this.id].length) {
+                    return 100;
+                }
+
+                if(this.ordersView[this.id].length == 0) {
+                    return 0;
+                }
+                
+                return 100 / (this.orders[this.id].deliveries.length - this.ordersView[this.id].length);
+            }
         }
     }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

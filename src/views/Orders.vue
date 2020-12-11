@@ -1,47 +1,65 @@
 <template>
     <div class="container">
-        <h3>Мои заказы {{orders.length}}</h3>
+        <h3 class="container__header">
+            Мои заказы
 
-        <Card
+            <span class="container__header--gray">{{orders.length}}</span>
+        </h3>
+        
+        <CardWithDescription 
+            class="container-card"
             v-for="(item, id) in orders" 
             :key="id"
             :item="item"
-            :orders="orders"
             :id="id"
-            :isDescription="isDescription">
-        </Card>
+            :orders="orders"
+            />
     </div>
 </template>
 
 <script>
-    import Card from '../components/Card.vue';
+    import { mapState } from 'vuex'
+    import { mapActions } from 'vuex'
+    import CardWithDescription from '../components/CardWithDescription.vue';
 
     export default {
         components: { 
-            Card
-        },
-        data: function() {
-            return {
-                //TODO: Переименовать в orders. Избавиться от null 
-                orders: [],
-                newOrders: [],
-                isDescription: true
-            }
+            CardWithDescription
         },
         methods: {
-            
-        },
-        watch: {
-            $route: {
-                immediate: true,
-                handler(to) { 
-                    this.newOrders = to.params.newOrders;
-                    this.orders = this.newOrders;
-                }
-            }
+            ...mapActions({
+                loadOrders: 'loadOrders',
+                setView: 'setView'
+            })
         },
         created() {
-            this.orders = this.$store.state.ordersArr;
-        }
+            this.loadOrders();
+        },
+        computed: {
+            ...mapState({
+                orders: state => state.orders,
+                ordersView: state => state.ordersView
+            }),
+        },
+        watch: {
+            orders: function(orders) {
+                this.setView(orders);
+            }
+        },
     }
 </script>
+
+<style lang="scss" scoped>
+    .nav {
+        height: 50px;
+        display: flex;
+        align-items: center;
+
+        a {
+            color: black;
+            font-size: 24px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+    }
+</style>

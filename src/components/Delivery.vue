@@ -1,5 +1,5 @@
 <template>
-    <div class="container-delivery">
+    <div class="container-delivery" v-if="item.view">
         <div class="container-delivery-list">
                 <div class="container-delivery-list-item">
                     <img src="../assets/img/bag.svg" alt="" class="bag" />
@@ -24,7 +24,7 @@
     import moment from 'moment';
 
     export default {
-        props: ["item", "id", "orders"],
+        props: ["item"],
         methods: {
             deliveredDay(date) {
                 moment.locale('ru')
@@ -35,7 +35,7 @@
                     ${day.date(date.split('-')[2]).format('dddd')} 
                 `;
             }
-        },
+        }
     }
 </script>
 

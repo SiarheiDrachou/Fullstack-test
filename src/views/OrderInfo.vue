@@ -1,61 +1,55 @@
 <template>
     <div class="container">
         <nav class="nav">
-            <router-link :to="{name: 'Orders', params: { newOrders: orders}}" title="Возврат к списку заказов">Назад</router-link>
+            <router-link :to="{name: 'Orders'}" title="Возврат к списку заказов">Назад</router-link>
         </nav>
 
-        <Card
-            :item="item"
-            :id="id"
-            :orders="orders"
-            :isDescription="isDescription">
-        </Card>
-
-        <h3>Доставки</h3>
-
-        <Delivery
-            class="container-delivery" 
-            v-for="(items, keys) in item.deliveries" 
-            :key="keys"
-            :item="items"
-            :orders="orders"
-            :id="keys"
-            v-show="items.date.split('-')[1] >= new Date().getMonth() && items.date.split('-')[2] >= new Date().getDate()"
-        />
-
-        <Change :orders="orders" :item="item" :id="id" />
+        <CardWithDeliveries :items="items" :id="id" :orders="orders"/>        
     </div>
 </template>
 
 <script>
-    import Card from '../components/Card.vue';
-    import Delivery from '../components/Delivery.vue';
-    import Change from '../components/Change.vue';
+    import CardWithDeliveries from '../components/CardWithDeliveries.vue';
 
     export default {
         components: { 
-            Card,
-            Delivery,
-            Change
+            CardWithDeliveries
         },
         data: function() {
             return {
-                card: {},
+                items: {},
                 orders: [],
-                id: null,
-                isDescription: false,
-                item: {}
+                id: null
             };
         },
         watch: {
             $route: {
                 immediate: true,
                 handler(to) {
-                    this.orders = to.params.orders;
+                    this.items = to.params.item;
                     this.id = to.params.id;
-                    this.item = to.params.item;
+                    this.orders = to.params.orders;
                 }
             }
         }
     }
 </script>
+
+<style lang="scss" scoped>
+    .nav {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        
+
+        a {
+            font-family: 'San Francisco Pro';
+            font-size: 17px;
+            line-height: 22px;
+            letter-spacing: -0.41px;
+            font-weight: 400;
+            color: #1E6FB9;
+            text-decoration: none;
+        }
+    }
+</style>

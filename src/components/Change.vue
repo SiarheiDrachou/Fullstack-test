@@ -1,40 +1,66 @@
 <template>
     <div class="container-change">
-        <div class="container-change-add" @click="duplicateOrder">
-            <span>Дублировать заказ</span>
+        <div class="container-change-add">
+            <button @click="duplicateOrders" :disabled="copyInProgress || deleteInProgress" class="container-change-add__button">Дублировать заказ</button>
 
-            <img src="../assets/img/Add.svg" alt="" />
+            <button @click="duplicateOrders" :disabled="copyInProgress || deleteInProgress" class="container-change-add__button">
+                <img src="../assets/img/Add.svg" alt="" />
+            </button> 
         </div>
 
-        <hr />
+        <hr class="container-change__hr"/>
 
-        <div class="container-change-add" @click="deleteOrder">
-            <span>Отменить заказ</span>
+        <div class="container-change-add">
+            <button @click="deleteOrders" :disabled="copyInProgress || deleteInProgress" class="container-change-add__button">Отменить заказ</button>
 
-            <img src="../assets/img/Delete.svg" alt="" />
+            <button @click="deleteOrders" :disabled="copyInProgress || deleteInProgress" class="container-change-add__button">
+                <img src="../assets/img/Delete.svg" alt="" />
+            </button> 
+        </div>
+
+        <div class="errors">
+            <span v-for="(error, id) in copyOrderErrors" :key="id" v-text="error"></span>
+
+            <span v-for="(error, id) in deleteOrderErrors" :key="id" v-text="error"></span>
         </div>
     </div>
 </template>
 
 <script>
-export default {
-    props: ["orders", "item", "id"],
-    methods: {
-        duplicateOrder() {
-            let order = Object.assign({}, this.orders[this.id], this.orders[this.id].id = this.orders.length + 1);
-            this.orders.push(order)
+    import { mapState } from 'vuex'
+    import { mapActions } from 'vuex'
 
-            this.$store.commit("changeOrders", this.orders);
+    export default {
+        props: ["orders", "item", "id"],
+        methods: {
+            duplicateOrders() {
+                let order = Object.assign({}, this.orders[this.id], this.orders[this.id].id = this.orders.length + 1);
+                
+                this.copyOrder(order);
+                
+                setTimeout(() => {
+                    this.$router.push('/');
+                }, 3000);
+            },
+            deleteOrders() {
+                this.deleteOrder(this.id);
+                
+                setTimeout(() => {
+                    this.$router.push('/');
+                }, 3000);
+            },
+            ...mapActions({
+                copyOrder: 'copyOrder',
+                deleteOrder: 'deleteOrder'
+            })
         },
-        deleteOrder() {
-            let order = Object.assign({}, this.orders, this.orders.splice(this.id, 1));
-
-            this.$store.commit("deleteOrders", order);
+        computed: {
+            ...mapState({
+                copyOrderErrors: state => state.copyOrderErrors,
+                copyInProgress: state => state.copyOrderInProgress,
+                deleteOrderErrors: state => state.deleteOrderErrors,
+                deleteInProgress: state => state.deleteInProgress
+            })
         }
     }
-}
 </script>
-
-<style lang="scss" scoped>
-
-</style>
