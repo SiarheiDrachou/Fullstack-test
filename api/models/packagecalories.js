@@ -4,7 +4,7 @@ const db = require("../database/database");
 const packagecalories = db.define("packagecalories", {
     id: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: true,
       primaryKey: true,
     },
     text: {

@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
 import axios from 'axios';
 
 Vue.use(Vuex)
@@ -8,25 +7,35 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     orders: [],
-    deleteId: null,
     copyOrderInProgress: false,
     copyOrderErrors: [],
     deleteOrderInProgress: false,
     deleteOrderErrors: [],
+    copyOrderSuccess: [],
+    deleteOrderSuccess: [],
     ordersView: []
   },
   mutations: {
+    //duplicate order request
     copyOrderInProgress(state){
         state.copyOrderInProgress = true;
     },
     addOrder(state, order){
         state.orders = order;
         state.copyOrderInProgress = false;
+        state.deleteOrderInProgress = false;
     },
     copyOrderError(state, errorMessage){
       state.copyOrderErrors.push(errorMessage);
       state.copyOrderInProgress = false;
     },
+    copyOrderSuccess(state, successMessage){
+      state.copyOrderSuccess.push(successMessage);
+      state.copyOrderInProgress = false;
+    },
+
+
+    //delete order request
     deleteOrderInProgress(state){
       state.deleteOrderInProgress = true;
     },
@@ -38,13 +47,20 @@ export default new Vuex.Store({
       state.deleteOrderErrors.push(errorMessage);
       state.deleteOrderInProgress = false;
     },
+    deleteOrderSuccess(state, successMessage){
+      state.deleteOrderSuccess.push(successMessage);
+      state.deleteOrderInProgress = false;
+    },
+
+
+    //load orders with db
     setOrders(state, orders){
       state.orders = orders;
       state.copyOrderInProgress = false;
     },
-    setDeleteId(state, id) {
-      state.deleteId = id;
-    },
+
+
+    // added attribute view
     setView(state, orders) {
       state.orders = orders;
     },
@@ -62,24 +78,23 @@ export default new Vuex.Store({
           data: {
               order
           }
-      }).then(function (req) {
-          commit("addOrder", req);
+      }).then(function () {
+          commit("copyOrderSuccess", 'Success duplicate order!')
       }).catch(function (e) {
           commit('copyOrderError', e)
       });
     },
     deleteOrder({commit}, id){
-      console.log(id);
       commit('deleteOrderInProgress');
-      commit('setDeleteId', id);
+      
       axios({
           method: 'post',
           url: '/api/cancelOrder',
           data: {
               id
           }
-      }).then(function (req) {
-          commit("addOrder", req);
+      }).then(function () {
+          commit("deleteOrderSuccess", 'Success delete order!')
       }).catch(function (e) {
           commit('deleteOrderError', e)
       });

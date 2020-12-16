@@ -7,13 +7,13 @@
 
             <p class="container-card-eat__text">
                 <span class="container-card-eat__text--small">
-                    {{item.packageName}}
+                    {{orders[id].packageName}}
                 </span>
 
                 <br />
 
                 <span class="container-card-eat__text--bold">
-                    <b>{{item.packageCalories}}</b>
+                    <b>{{orders[id].packageCalories}}</b>
                 </span>
             </p>
         </div>

@@ -6,7 +6,7 @@ const deliveries = db.define("deliveries", {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-      allowNull: false
+      allowNull: true
     },
     date: {
       type: Sequelize.STRING,

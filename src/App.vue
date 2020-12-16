@@ -311,4 +311,11 @@ a {
   color: red;
   font-weight: 500;
 }
+
+.success {
+  margin-top: 50px;
+  font-size: 20px;
+  color: green;
+  font-weight: 500;
+}
 </style>

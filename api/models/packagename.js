@@ -5,7 +5,7 @@ const packagename = db.define("packagename", {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      allowNull: false
+      allowNull: true
     },
     text: {
       type: Sequelize.STRING,

@@ -23,6 +23,12 @@
 
             <span v-for="(error, id) in deleteOrderErrors" :key="id" v-text="error"></span>
         </div>
+
+        <div class="success">
+            <span v-for="(success, id) in copyOrderSuccess" :key="id" v-text="success"></span>
+
+            <span v-for="(success, id) in deleteOrderSuccess" :key="id" v-text="success"></span>
+        </div>
     </div>
 </template>
 
@@ -34,20 +40,13 @@
         props: ["orders", "item", "id"],
         methods: {
             duplicateOrders() {
-                let order = Object.assign({}, this.orders[this.id], this.orders[this.id].id = this.orders.length + 1);
-                
+                let order = {...this.orders[this.id]};
+                order.id = this.orders.length + 1;
+
                 this.copyOrder(order);
-                
-                setTimeout(() => {
-                    this.$router.push('/');
-                }, 3000);
             },
             deleteOrders() {
                 this.deleteOrder(this.id);
-                
-                setTimeout(() => {
-                    this.$router.push('/');
-                }, 3000);
             },
             ...mapActions({
                 copyOrder: 'copyOrder',
@@ -59,7 +58,9 @@
                 copyOrderErrors: state => state.copyOrderErrors,
                 copyInProgress: state => state.copyOrderInProgress,
                 deleteOrderErrors: state => state.deleteOrderErrors,
-                deleteInProgress: state => state.deleteInProgress
+                deleteInProgress: state => state.deleteInProgress,
+                copyOrderSuccess: state => state.copyOrderSuccess,
+                deleteOrderSuccess: state => state.deleteOrderSuccess
             })
         }
     }
